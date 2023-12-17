@@ -1,9 +1,8 @@
 import React from 'react';
 import SidebarComponent from './sidebar/sidebar';
 import EditorComponent from './editor/editor';
-import './App.css';
-
-const firebase = require('firebase');
+import './app.css';
+import { db } from "./firebase_config";
 
 class App extends React.Component {
 
@@ -37,8 +36,7 @@ class App extends React.Component {
   }
 
   componentDidMount = () => { //fetch notes from firebase
-    firebase
-      .firestore()
+    db
       .collection('notes')
       .onSnapshot(serverUpdate => {
         const notes = serverUpdate.docs.map(_doc => {
@@ -55,8 +53,7 @@ class App extends React.Component {
 
   selectNote = (note, index) => this.setState({ selectedNoteIndex: index, selectedNote: note });
   noteUpdate = (id, noteObj) => {
-    firebase
-      .firestore()
+    db
       .collection('notes')
       .doc(id)
       .update({
@@ -71,8 +68,7 @@ class App extends React.Component {
       body: ''
     };
     console.log("start adding");
-    const newFromDB = await firebase //firebase operation returns Promise, unline this.setState
-      .firestore()
+    const newFromDB = await db //firebase operation returns Promise, unline this.setState
       .collection('notes')
       .add({
         title: note.title,
@@ -142,8 +138,7 @@ class App extends React.Component {
       this.setState({ selectedNoteIndex: otherNotes.indexOf(otherNotes.filter(_note => _note.id === prevSelectedNoteId)[0])});
     }
     //就算本来没有任何的note被选中，依然work
-    firebase
-      .firestore()
+    db
       .collection('notes')
       .doc(note.id)
       .delete(); //利用firebase自己会update component local state
