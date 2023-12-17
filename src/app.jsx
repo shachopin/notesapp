@@ -3,6 +3,7 @@ import SidebarComponent from './sidebar/sidebar';
 import EditorComponent from './editor/editor';
 import './app.css';
 import { db } from "./firebase_config";
+import firebase from "firebase";
 
 class App extends React.Component {
 
