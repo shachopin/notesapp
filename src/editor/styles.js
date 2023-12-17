@@ -28,7 +28,8 @@ const styles = theme => ({
   },
   editorContainer: {
     boxSizing: 'border-box',
-    height: '94vh'
+    height: '94vh',
+    marginRight: -15
   }
 });
 
